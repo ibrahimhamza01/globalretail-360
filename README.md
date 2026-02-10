@@ -37,10 +37,10 @@ To maintain focus and realism, the project intentionally excludes:
 ## Data Sources
 
 ### Internal Data (Statistically Valid)
-These datasets serve as the sole source for statistical testing and machine learning:
-- Global Superstore sales data
-- Returns data
-- Customer data
+These datasets serve as the sole source for statistical testing and machine learning. All files are CSVs generated from the original Excel:
+- `data/raw/global_superstore/orders.csv` — Order-level transaction data
+- `data/raw/global_superstore/returns.csv` — Order return information
+- `data/raw/global_superstore/customers.csv` — Customer demographic and account data
 
 ### External Data (Enrichment Only)
 External APIs are used strictly for feature enrichment and scenario analysis:
