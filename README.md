@@ -38,9 +38,16 @@ To maintain focus and realism, the project intentionally excludes:
 
 ### Internal Data (Statistically Valid)
 These datasets serve as the sole source for statistical testing and machine learning. All files are CSVs generated from the original Excel:
+
 - `data/raw/global_superstore/orders.csv` — Order-level transaction data
 - `data/raw/global_superstore/returns.csv` — Order return information
 - `data/raw/global_superstore/customers.csv` — Customer demographic and account data
+
+**Initial Data Assessment (IDA)** has been performed on all internal CSVs to ensure data quality and readiness for analysis:
+
+- **orders.csv** – 51,290 rows, 24 columns. Clean dataset with only Postal Code partially missing. Ready for analysis.
+- **returns.csv** – 2,033 rows, 3 columns. No missing values. Can serve as a target for return prediction tasks.
+- **customers.csv** – 24 rows, 2 columns. Complete, no missing values, categorical only. Ready for enrichment and analysis.
 
 ### External Data (Enrichment Only)
 External APIs are used strictly for feature enrichment and scenario analysis:
@@ -79,6 +86,13 @@ All analysis is hypothesis-driven and includes:
 - Effect sizes
 - Business interpretation of results
 
+**Initial Data Assessment (IDA)** Summary:
+- Verified column types and data completeness.
+- Checked uniqueness of identifiers (Order ID, Customer ID).
+- Reviewed basic distributions and value counts for categorical features (e.g., Segment, Region, Returned).
+- Summarized numeric distributions (Sales, Profit, Quantity, etc.).
+- Ensured no data inconsistencies before proceeding to deeper EDA, feature engineering, and statistical tests.
+
 ---
 
 ## Machine Learning
@@ -112,4 +126,9 @@ The entire system can be reproduced locally using Docker with documented setup s
 ---
 
 ## Roadmap and Non-Goals
-Future enhancements are documented explicitly, while maintaining clear boundaries to avoid overengineering.
+Future enhancements are documented explicitly, while maintaining clear boundaries to avoid overengineering.  
+
+**Next Steps:**
+- Perform detailed EDA and feature engineering for all internal CSVs.
+- Develop statistical analyses and hypothesis testing.
+- Build interpretable machine learning models.
