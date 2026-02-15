@@ -57,10 +57,10 @@ These datasets are the primary source for statistical testing and machine learni
 
 All internal datasets are loaded into PostgreSQL tables:
 - `orders`
-- returns
-- customers
-- leads
-- exchange_rates (166 currencies, timestamped)
+- `returns`
+- `customers`
+- `leads`
+- `exchange_rates` (166 currencies, timestamped)
 
 ### External Data (Enrichment Only)
 
