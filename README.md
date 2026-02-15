@@ -41,17 +41,21 @@ To maintain focus and realism, the project intentionally excludes:
 
 ### Internal Data (Statistically Valid)
 
-These datasets serve as the sole source for statistical testing and machine learning. All files are CSVs generated from the original Excel:
+These datasets are the primary source for statistical testing and machine learning. All files are CSVs generated from the original Excel files and are now ingested into PostgreSQL via the ETL pipeline:
 
 - `data/raw/global_superstore/orders.csv` — Order-level transaction data  
 - `data/raw/global_superstore/returns.csv` — Order return information  
-- `data/raw/global_superstore/customers.csv` — Customer demographic and account data  
+- `data/raw/global_superstore/people.csv` — Lead information  
+- `data/raw/global_superstore/orders.csv` → customers table — Customer demographic and account data derived from orders  
 
 **Initial Data Assessment (IDA)** has been performed on all internal CSVs to ensure data quality and readiness for analysis:
 
-- **orders.csv** – 51,290 rows, 24 columns. Clean dataset with only Postal Code partially missing. Ready for analysis.  
+- **orders.csv** – 51,290 rows, 24 columns. Clean dataset; Postal Code partially missing. Ready for analysis.  
 - **returns.csv** – 2,033 rows, 3 columns. No missing values. Can serve as a target for return prediction tasks.  
-- **customers.csv** – 24 rows, 2 columns. Complete, no missing values, categorical only. Ready for enrichment and analysis.  
+- **customers table** – 17,415 unique customers extracted from orders.csv. All critical columns complete; ready for enrichment and analysis.  
+- **leads table** – 24 rows from people.csv. Names have been split into First Name and Last Name with robust parsing. Ready for analysis and enrichment.  
+
+All internal datasets are loaded into PostgreSQL tables: `orders`, `returns`, `customers`, `leads`.
 
 ### External Data (Enrichment Only)
 
@@ -61,6 +65,7 @@ External APIs are used strictly for feature enrichment and scenario analysis:
 - Synthetic competitor data  
 
 External data is explicitly excluded from statistical inference to preserve analytical validity.
+
 
 ## Data Engineering (ETL)
 
