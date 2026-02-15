@@ -56,11 +56,11 @@ These datasets are the primary source for statistical testing and machine learni
 - **leads table** – 24 rows from people.csv. Names have been split into First Name and Last Name with robust parsing. Ready for analysis and enrichment.  
 
 All internal datasets are loaded into PostgreSQL tables:
-    - orders
-    - returns
-    - customers
-    - leads
-    - exchange_rates (166 currencies, timestamped)
+- `orders`
+- returns
+- customers
+- leads
+- exchange_rates (166 currencies, timestamped)
 
 ### External Data (Enrichment Only)
 
