@@ -55,32 +55,45 @@ These datasets are the primary source for statistical testing and machine learni
 - **customers table** – 17,415 unique customers extracted from orders.csv. All critical columns complete; ready for enrichment and analysis.  
 - **leads table** – 24 rows from people.csv. Names have been split into First Name and Last Name with robust parsing. Ready for analysis and enrichment.  
 
-All internal datasets are loaded into PostgreSQL tables: `orders`, `returns`, `customers`, `leads`.
+All internal datasets are loaded into PostgreSQL tables:
+    - orders
+    - returns
+    - customers
+    - leads
+    - exchange_rates (166 currencies, timestamped)
 
 ### External Data (Enrichment Only)
 
-External APIs are used strictly for feature enrichment and scenario analysis:
-
-- Exchange rate data  
-- Synthetic competitor data  
-
-External data is explicitly excluded from statistical inference to preserve analytical validity.
-
+- Exchange rates from external API are fetched and converted to `datetime64[ns]` for compatibility
+- External datasets are used strictly for feature enrichment and scenario analysis; excluded from statistical inference
 
 ## Data Engineering (ETL)
 
 A modular Python-based ETL pipeline is fully implemented and operational:
-- Ingests multi-source CSV data: orders.csv, returns.csv, people.csv
-- Standardizes schemas and case formatting for key columns
-- Enforces data quality checks (required columns, data types, nulls)
-- Loads analytics-ready data into PostgreSQL tables:
 
+- Ingests multi-source CSV data: orders.csv, returns.csv, people.csv
+- Fetches external data from APIs (exchange rates, synthetic competitor data)
+- Standardizes schemas and case formatting for key columns
+- Enforces data quality checks:
+    - Required columns
+    - Data types (including datetime handling for timestamps)
+    - No nulls in critical columns
+- Loads analytics-ready data into PostgreSQL tables:
     - orders (fact table)
     - returns (fact table)
     - customers (dimension)
     - leads (dimension)
+    - exchange_rates (dimension)
+- Idempotent and re-runnable, designed to prevent duplication and schema conflicts
+- Primary keys are enforced at load-time using SQLAlchemy text statements
 
-The pipeline is idempotent, re-runnable, and designed to prevent duplications.
+## Data Quality & Validation
+
+- Required columns are checked for existence
+- Data types validated (with flexibility for object/string and datetime handling)
+- Null values prevented in critical columns
+- API-derived datasets (e.g., exchange rates) now correctly standardized for datetime and float types
+- Errors during ETL are logged, preventing corrupt data from loading into PostgreSQL
 
 ## Data Modeling
 
@@ -144,7 +157,9 @@ Docker is used to ensure reproducibility across environments.
 
 ## Deployment
 
-The system is designed to be deployed on lightweight cloud platforms with a public prediction endpoint.
+- The ETL pipeline fully automates ingestion, validation, and database loading
+- Tables are created or replaced with enforced primary keys, avoiding duplication
+- System is reproducible locally using Python, PostgreSQL, and Docker
 
 ## BI & Storytelling
 
