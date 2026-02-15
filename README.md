@@ -64,14 +64,18 @@ External data is explicitly excluded from statistical inference to preserve anal
 
 ## Data Engineering (ETL)
 
-A modular Python-based ETL pipeline is used to:
+A modular Python-based ETL pipeline is fully implemented and operational:
+- Ingests multi-source CSV data: orders.csv, returns.csv, people.csv
+- Standardizes schemas and case formatting for key columns
+- Enforces data quality checks (required columns, data types, nulls)
+- Loads analytics-ready data into PostgreSQL tables:
 
-- Ingest multi-source data
-- Standardize schemas
-- Enforce data quality checks
-- Load analytics-ready data into PostgreSQL
+    - orders (fact table)
+    - returns (fact table)
+    - customers (dimension)
+    - leads (dimension)
 
-The pipeline is designed to be **idempotent** and **re-runnable**.
+The pipeline is idempotent, re-runnable, and designed to prevent duplications.
 
 ## Data Modeling
 
