@@ -72,3 +72,45 @@ def validate_no_nulls(
             )
 
     logger.info("Null validation passed")
+
+# -------------------------------
+# API-Specific Validation Wrappers
+# -------------------------------
+
+def validate_exchange_rates(df: pd.DataFrame) -> None:
+    """
+    Validate exchange rates table.
+    """
+    logger.info("Validating Exchange Rates table")
+    required_cols = ["currency", "rate", "timestamp"]
+    validate_required_columns(df, required_cols)
+
+    expected_types = {
+        "currency": "object",
+        "rate": "float64",
+        "timestamp": "object",  # timestamp as string (ISO format)
+    }
+    validate_column_types(df, expected_types)
+    validate_no_nulls(df, critical_columns=["currency", "rate"])
+    logger.info("Exchange Rates validation passed")
+
+
+def validate_fake_store_products(df: pd.DataFrame) -> None:
+    """
+    Validate Fake Store products table.
+    """
+    logger.info("Validating Fake Store products table")
+    required_cols = ["id", "title", "price", "category", "rating_rate", "rating_count"]
+    validate_required_columns(df, required_cols)
+
+    expected_types = {
+        "id": "int64",
+        "title": "object",
+        "price": "float64",
+        "category": "object",
+        "rating_rate": "float64",
+        "rating_count": "int64"
+    }
+    validate_column_types(df, expected_types)
+    validate_no_nulls(df, critical_columns=["id", "title", "price"])
+    logger.info("Fake Store products validation passed")
