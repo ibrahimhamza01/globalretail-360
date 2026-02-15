@@ -31,3 +31,10 @@ POSTGRES_URI = (
     f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
     f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 )
+
+# API keys
+EXCHANGE_RATE_API_KEY = os.getenv("EXCHANGE_RATE_API_KEY")
+
+# API URLs
+EXCHANGE_RATE_API_URL = "https://v6.exchangerate-api.com/v6/{api_key}/latest/{base}"
+FAKE_STORE_API_URL = "https://fakestoreapi.com/products"
