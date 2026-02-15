@@ -36,13 +36,26 @@ def validate_column_types(df: pd.DataFrame, expected_types: dict) -> None:
     expected_types: dict {column_name: dtype_as_string}
     """
     for col, expected in expected_types.items():
-        actual_dtype = str(df[col].dtype)
-        if expected == "object" and actual_dtype in ["object", "string", "str"]:
-            continue  # accept str/object as valid
-        if actual_dtype != expected:
+        actual_dtype = df[col].dtype
+
+        # Allow any datetime-like dtype if expected is datetime64
+        if expected.startswith("datetime64") or expected == "object:datetime":
+            if not pd.api.types.is_datetime64_any_dtype(df[col]):
+                logger.error(f"Column {col} has dtype {actual_dtype}, expected datetime-like")
+                raise TypeError(f"Column {col} has dtype {actual_dtype}, expected datetime-like")
+            continue  # datetime column passed
+
+        # Allow object/string types interchangeably
+        if expected == "object" and str(actual_dtype) in ["object", "string", "str"]:
+            continue
+
+        # Standard exact dtype check
+        if str(actual_dtype) != expected:
             logger.error(f"Column {col} has dtype {actual_dtype}, expected {expected}")
             raise TypeError(f"Column {col} has dtype {actual_dtype}, expected {expected}")
+
     logger.info("Column dtype validation passed")
+
 
 
 def validate_no_nulls(
@@ -88,11 +101,12 @@ def validate_exchange_rates(df: pd.DataFrame) -> None:
     expected_types = {
         "currency": "object",
         "rate": "float64",
-        "timestamp": "object",  # timestamp as string (ISO format)
+        "timestamp": "object:datetime",  # flexible datetime check
     }
     validate_column_types(df, expected_types)
     validate_no_nulls(df, critical_columns=["currency", "rate"])
     logger.info("Exchange Rates validation passed")
+
 
 
 def validate_fake_store_products(df: pd.DataFrame) -> None:

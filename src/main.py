@@ -8,6 +8,10 @@ from src.transform.data_validation import (
     validate_no_nulls
 )
 from src.load.postgres_loader import load_to_postgres
+from datetime import datetime
+from src.extract.api_loader import load_exchange_rates, load_fake_store_products
+from sqlalchemy import String, Float, Integer, TIMESTAMP
+import pandas as pd
 
 logger = get_logger(__name__)
 
@@ -190,6 +194,114 @@ def etl_returns():
 
     logger.info("ETL for Returns completed successfully")
 
+def etl_exchange_rates():
+    """ETL pipeline for ExchangeRate API."""
+    logger.info("Starting ETL for Exchange Rates")
+
+    # -----------------------
+    # Extract
+    # -----------------------
+    rates_df = load_exchange_rates()
+
+    # -----------------------
+    # Transform
+    # -----------------------
+
+    # Add timestamp
+    rates_df["timestamp"] = pd.Timestamp.now(tz=None)
+
+    # -----------------------
+    # Validate
+    # -----------------------
+    validate_required_columns(rates_df, ["currency", "rate", "timestamp"])
+
+    expected_types = {
+        "currency": "object",
+        "rate": "float64",
+        "timestamp": "datetime64[ns]"
+    }
+    validate_column_types(rates_df, expected_types)
+    validate_no_nulls(rates_df, ["currency", "rate"])
+
+    # -----------------------
+    # Load
+    # -----------------------
+    dtype_map = {
+        "currency": String,
+        "rate": Float,
+        "timestamp": TIMESTAMP
+    }
+    load_to_postgres(
+        df=rates_df,
+        table_name="exchange_rates",
+        schema="public",
+        if_exists="replace" if ENV == "dev" else "append",
+        primary_key="currency",
+        dtype_map=dtype_map
+    )
+
+    logger.info("ETL for Exchange Rates completed successfully")
+
+
+def etl_fake_store_products():
+    """ETL pipeline for Fake Store API products."""
+    logger.info("Starting ETL for Fake Store Products")
+
+    # -----------------------
+    # Extract
+    # -----------------------
+    products_df = load_fake_store_products()
+
+    # -----------------------
+    # Transform
+    # -----------------------
+    # Separate rating dict into two columns: rating_rate, rating_count
+    if "rating" in products_df.columns:
+        products_df["rating_rate"] = products_df["rating"].apply(lambda x: x.get("rate") if isinstance(x, dict) else None)
+        products_df["rating_count"] = products_df["rating"].apply(lambda x: x.get("count") if isinstance(x, dict) else None)
+        products_df = products_df.drop(columns=["rating"])
+
+    # -----------------------
+    # Validate
+    # -----------------------
+    required_cols = ["id", "title", "price", "category", "rating_rate", "rating_count"]
+    validate_required_columns(products_df, required_cols)
+
+    expected_types = {
+        "id": "int64",
+        "title": "object",
+        "price": "float64",
+        "category": "object",
+        "rating_rate": "float64",
+        "rating_count": "int64"
+    }
+    validate_column_types(products_df, expected_types)
+    validate_no_nulls(products_df, ["id", "title", "price"])
+
+    # -----------------------
+    # Load
+    # -----------------------
+    dtype_map = {
+        "id": Integer,
+        "title": String,
+        "price": Float,
+        "description": String,
+        "category": String,
+        "image": String,
+        "rating_rate": Float,
+        "rating_count": Integer
+    }
+
+    load_to_postgres(
+        df=products_df,
+        table_name="fake_store_products",
+        schema="public",
+        if_exists="replace" if ENV == "dev" else "append",
+        primary_key="id",
+        dtype_map=dtype_map
+    )
+
+    logger.info("ETL for Fake Store Products completed successfully")
 
 def main():
     logger.info(f"Starting GlobalRetail 360 ETL pipeline | ENV={ENV}")
@@ -198,6 +310,9 @@ def main():
     etl_returns()
     etl_customers()
     etl_leads()
+
+    etl_exchange_rates()
+    etl_fake_store_products()
 
     logger.info("All ETL processes completed successfully")
 

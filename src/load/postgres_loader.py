@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, types
 from sqlalchemy.engine import Engine
 from src.utils.config import POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DB
 from src.utils.logger import get_logger
+from sqlalchemy import text
 
 logger = get_logger(__name__)
 
@@ -59,10 +60,10 @@ def load_to_postgres(
             # Set primary key if table is created or replaced
             with engine.begin() as conn:
                 logger.info(f"Setting primary key on {primary_key} for table {table_name}")
-                conn.execute(f"""
-                    ALTER TABLE {schema}.{table_name}
-                    ADD PRIMARY KEY ({primary_key});
-                """)
+                conn.execute(text(f"""
+                                  ALTER TABLE {schema}.{table_name}
+                                  ADD PRIMARY KEY ({primary_key});
+                                  """))
 
         logger.info(f"Successfully loaded {df.shape[0]} rows into {schema}.{table_name}")
 
