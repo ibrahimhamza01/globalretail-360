@@ -67,7 +67,8 @@ def load_to_postgres(
             schema=schema,
             if_exists=if_exists,
             index=False,
-            method="multi"
+            method="multi",
+            chunksize=1000
         )
 
         logger.info(

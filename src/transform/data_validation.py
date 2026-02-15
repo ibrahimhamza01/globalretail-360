@@ -30,37 +30,18 @@ def validate_required_columns(
     logger.info("Required column validation passed")
 
 
-def validate_column_types(
-    df: pd.DataFrame,
-    expected_dtypes: dict[str, str]
-) -> None:
+def validate_column_types(df: pd.DataFrame, expected_types: dict) -> None:
     """
-    Validates that columns match expected pandas dtypes.
-
-    Args:
-        expected_dtypes: dict like {"Sales": "float64"}
+    Validate column data types.
+    expected_types: dict {column_name: dtype_as_string}
     """
-
-    logger.info("Validating column data types")
-
-    for col, expected_type in expected_dtypes.items():
-
-        if col not in df.columns:
-            logger.warning(f"Column not found for dtype validation: {col}")
-            continue
-
-        actual_type = str(df[col].dtype)
-
-        if actual_type != expected_type:
-            logger.error(
-                f"Column {col} has dtype {actual_type}, "
-                f"expected {expected_type}"
-            )
-            raise TypeError(
-                f"Column {col} has dtype {actual_type}, "
-                f"expected {expected_type}"
-            )
-
+    for col, expected in expected_types.items():
+        actual_dtype = str(df[col].dtype)
+        if expected == "object" and actual_dtype in ["object", "string", "str"]:
+            continue  # accept str/object as valid
+        if actual_dtype != expected:
+            logger.error(f"Column {col} has dtype {actual_dtype}, expected {expected}")
+            raise TypeError(f"Column {col} has dtype {actual_dtype}, expected {expected}")
     logger.info("Column dtype validation passed")
 
 
