@@ -1,5 +1,3 @@
-# src/transform/fake_store_transform.py
-
 import pandas as pd
 from src.utils.logger import get_logger
 from src.transform.case_standardizer import standardize_case
