@@ -64,8 +64,23 @@ All internal datasets are loaded into PostgreSQL tables:
 
 ### External Data (Enrichment Only)
 
-- Exchange rates from external API are fetched and converted to `datetime64[ns]` for compatibility
-- External datasets are used strictly for feature enrichment and scenario analysis; excluded from statistical inference
+External APIs are used strictly for feature enrichment and scenario analysis; they are **excluded from statistical inference** to preserve analytical validity.
+
+**Exchange Rates (API)**
+
+- 166 currencies fetched relative to USD
+- Columns: `currency` (string), `rate` (float), `timestamp` (datetime)
+- No missing values detected
+- Data standardized to correct `float64` and `datetime64[ns]` types for downstream ETL
+
+**Fake Store Products (Synthetic API)**
+
+- 20 products fetched with full details
+- Columns: `id` (int), `title` (str), `price` (float), `description` (str), `category` (str), `image` (str), `rating` (object/dict)
+- No missing values detected
+- Basic statistics for price column:
+    - Min: 7.95, Max: 999.99, Mean: 162.05, Median: 56.49
+- Data ready for enrichment into products dimension or scenario modeling
 
 ## Data Engineering (ETL)
 
