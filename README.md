@@ -190,6 +190,16 @@ Future enhancements are documented explicitly while maintaining clear boundaries
 
 ### Next Steps
 
-- Perform detailed EDA and feature engineering for all internal CSVs.  
-- Develop statistical analyses and hypothesis testing based on the **four high-impact hypotheses**.  
-- Build interpretable machine learning models.
+- Build the analytics warehouse (Layer 2) using PostgreSQL:
+    - Create a **star schema**:
+        - Fact table: `fact_sales` (order_id, customer_id, product_id, date_id, sales, profit, discount)
+        - Dimension tables: `dim_customers`, `dim_products`, `dim_geography`, `dim_date`
+    - Implement advanced SQL computations:
+        - CTEs, window functions, rolling aggregates
+        - Customer Lifetime Value (CLV) calculations
+        - Rolling 3-month sales and loss-making flags
+- Perform detailed EDA and feature engineering for all internal CSVs and external enrichment datasets (exchange rates, Fake Store products)
+- Conduct statistical analyses and hypothesis testing based on the four high-impact hypotheses
+- Build interpretable machine learning models for customer churn and sales forecasting
+- Extend BI dashboards to include insights from warehouse analytics and external enrichment features
+- Deploy predictive models via FastAPI and monitor with MLflow
