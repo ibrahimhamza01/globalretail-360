@@ -1,5 +1,5 @@
 from src.utils.logger import get_logger
-from src.utils.config import ENV
+from src.utils.config import ENV, POSTGRES_URI
 from src.extract.csv_loader import load_orders, load_leads, load_customers, load_returns
 from src.transform.case_standardizer import standardize_case
 from src.transform.data_validation import (
@@ -10,8 +10,9 @@ from src.transform.data_validation import (
 from src.load.postgres_loader import load_to_postgres
 from datetime import datetime
 from src.extract.api_loader import load_exchange_rates, load_fake_store_products
-from sqlalchemy import String, Float, Integer, TIMESTAMP
+from sqlalchemy import String, Float, Integer, TIMESTAMP, create_engine, text
 import pandas as pd
+import os
 
 logger = get_logger(__name__)
 
@@ -303,18 +304,47 @@ def etl_fake_store_products():
 
     logger.info("ETL for Fake Store Products completed successfully")
 
+def run_sql_file(sql_file_path: str, engine):
+    """Execute a SQL script file against the PostgreSQL database."""
+    with open(sql_file_path, "r") as f:
+        sql_content = f.read()
+    with engine.connect() as conn:
+        for statement in sql_content.split(";"):
+            stmt = statement.strip()
+            if stmt:
+                conn.execute(text(stmt))
+                conn.commit()
+
+def build_analytics_warehouse():
+    """Build the star schema and compute advanced SQL features."""
+    logger.info("Starting Analytics Warehouse build")
+
+    # Create SQLAlchemy engine using POSTGRES_URI from config.py
+    engine = create_engine(POSTGRES_URI)
+
+    # Run warehouse creation
+    run_sql_file("scripts/build_warehouse.sql", engine)
+    logger.info("Warehouse tables created successfully")
+
+    # Run advanced SQL features
+    run_sql_file("scripts/advanced_sql_features.sql", engine)
+    logger.info("Advanced SQL features computed successfully")
+
 def main():
     logger.info(f"Starting GlobalRetail 360 ETL pipeline | ENV={ENV}")
 
+    # --- ETL ---
     etl_orders()
     etl_returns()
     etl_customers()
     etl_leads()
-
     etl_exchange_rates()
     etl_fake_store_products()
 
-    logger.info("All ETL processes completed successfully")
+    # --- Build warehouse & compute features ---
+    build_analytics_warehouse()
+
+    logger.info("All ETL and warehouse processes completed successfully")
 
 
 
