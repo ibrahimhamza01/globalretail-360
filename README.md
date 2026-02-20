@@ -113,9 +113,26 @@ A modular Python-based ETL pipeline is fully implemented and operational:
 ## Data Modeling
 
 The analytics warehouse uses a **star schema** with:
+The analytics warehouse has been built using PostgreSQL with a **star schema** design:
 
-- A central sales fact table  
-- Customer, product, geography, and date dimensions  
+**Fact Table**
+- `fact_sales` — contains order-level metrics:
+    - order_id, customer_key, product_key, date_id, geography_key
+    - sales, profit, discount, quantity, shipping_cost
+    - return_flag, loss_flag
+
+**Dimension Tables**
+- `dim_customers` — surrogate key `customer_key`, customer demographics
+- `dim_products` — surrogate key `product_key`, product details and average internal price
+- `dim_fake_products` — synthetic product data for enrichment
+- `dim_date` — timestamp and derived date features (year, quarter, month, weekday, weekend flag)
+- `dim_geography` — unique locations (city, state, region, country)
+
+**Notes**
+- Surrogate keys were generated for all dimension tables.
+- Fact table rows link to dimension tables using these surrogate keys.
+- `return_flag` and `loss_flag` were computed from orders and returns tables.
+- The design allows analytical queries to efficiently aggregate sales, profits, discounts, and returns across customers, products, dates, and geography.
 
 PostgreSQL is used to demonstrate full-stack ownership and SQL proficiency. The design is directly transferable to cloud warehouses such as Snowflake.
 
