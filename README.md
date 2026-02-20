@@ -134,6 +134,14 @@ The analytics warehouse has been built using PostgreSQL with a **star schema** d
 - `return_flag` and `loss_flag` were computed from orders and returns tables.
 - The design allows analytical queries to efficiently aggregate sales, profits, discounts, and returns across customers, products, dates, and geography.
 
+### Advanced SQL Features in Warehouse
+
+- All features are computed in SQL, not Pandas
+- Includes:
+    - CTEs and window functions
+    - Rolling 3-month sales
+    - Customer Lifetime Value (CLV)
+
 PostgreSQL is used to demonstrate full-stack ownership and SQL proficiency. The design is directly transferable to cloud warehouses such as Snowflake.
 
 ## Analytics & Statistics
