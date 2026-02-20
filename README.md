@@ -137,10 +137,9 @@ The analytics warehouse has been built using PostgreSQL with a **star schema** d
 ### Advanced SQL Features in Warehouse
 
 - All features are computed in SQL, not Pandas
-- Includes:
-    - CTEs and window functions
-    - Rolling 3-month sales
-    - Customer Lifetime Value (CLV)
+- Scripts used:
+    - `scripts/build_warehouse.sql` — builds star schema tables
+    - `scripts/advanced_sql_features.sql` — computes rolling aggregates, CLV, and loss flags
 
 PostgreSQL is used to demonstrate full-stack ownership and SQL proficiency. The design is directly transferable to cloud warehouses such as Snowflake.
 
@@ -196,10 +195,9 @@ Models are exposed via **FastAPI** and tracked using **MLflow**.
 Docker is used to ensure reproducibility across environments.
 
 ## Deployment
-
-- The ETL pipeline fully automates ingestion, validation, and database loading
-- Tables are created or replaced with enforced primary keys, avoiding duplication
-- System is reproducible locally using Python, PostgreSQL, and Docker
+- The ETL pipeline fully automates ingestion, validation, and database loading.
+- Warehouse tables are built automatically at the end of the ETL.
+- Run locally using: `python -m src.main`
 
 ## BI & Storytelling
 
