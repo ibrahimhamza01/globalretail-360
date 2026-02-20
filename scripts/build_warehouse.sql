@@ -24,10 +24,6 @@ SELECT
 FROM date_range
 ORDER BY order_date;
 
-SELECT * FROM dim_date LIMIT 10;
-
-SELECT MIN(order_date), MAX(order_date) FROM dim_date;
-
 ------------------------------
 -- Create dim_customers
 ------------------------------
@@ -46,12 +42,6 @@ SELECT
     "Country" AS country
 FROM customers
 ORDER BY "Customer ID";
-
-SELECT * FROM dim_customers LIMIT 10;
-
-SELECT COUNT(*) FROM dim_customers;
-
-SELECT MIN(customer_key), MAX(customer_key) FROM dim_customers;
 
 ------------------------------
 -- Create dim_products (internal)
@@ -81,12 +71,6 @@ FROM (
 ) AS sub
 WHERE dp.product_id = sub.product_id;
 
-SELECT * FROM dim_products LIMIT 10;
-
-SELECT COUNT(*) FROM dim_products;
-
-SELECT MIN(avg_internal_price), MAX(avg_internal_price) FROM dim_products;
-
 ------------------------------
 -- Create dim_fake_products (synthetic / enrichment)
 ------------------------------
@@ -104,12 +88,6 @@ SELECT
     rating_count
 FROM fake_store_products;
 
-SELECT * FROM dim_fake_products LIMIT 10;
-
-SELECT COUNT(*) FROM dim_fake_products;
-
-SELECT MIN(price), MAX(price) FROM dim_fake_products;
-
 ------------------------------
 -- Create dim_geography
 ------------------------------
@@ -125,10 +103,6 @@ SELECT
 FROM customers
 GROUP BY customers."City", customers."State", customers."Region", customers."Country"
 ORDER BY customers."Country", customers."Region", customers."State", customers."City";
-
-SELECT * FROM dim_geography LIMIT 10;
-SELECT COUNT(*) FROM dim_geography;
-SELECT MIN(geography_key), MAX(geography_key) FROM dim_geography;
 
 ------------------------------
 -- Create fact_sales
@@ -168,11 +142,8 @@ JOIN dim_geography dg
 -- Left join returns for return_flag
 LEFT JOIN returns r
     ON o."Order ID" = r."Order ID";
-
-select * from fact_sales limit 10;
-
-
-----
+	
+----------------------------------------------------
 
 -- Add primary keys to dimension tables
 ALTER TABLE dim_date
@@ -203,7 +174,3 @@ FOREIGN KEY (product_key) REFERENCES dim_products(product_key);
 ALTER TABLE fact_sales
 ADD CONSTRAINT fk_fact_geography
 FOREIGN KEY (geography_key) REFERENCES dim_geography(geography_key);
-
-SELECT table_schema, table_name
-FROM information_schema.tables
-WHERE table_name LIKE 'dim_%' OR table_name LIKE 'fact_%';
