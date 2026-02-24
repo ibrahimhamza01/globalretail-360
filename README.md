@@ -164,8 +164,6 @@ All analysis is **hypothesis-driven** and includes:
 
 The project focuses on **four high-impact hypotheses** that combine multiple datasets, statistical tests, and business interpretation:
 
----
-
 ## 1. The Discount Trap (Stats + Cross-Dataset)
 
 **Hypothesis:** Orders with discounts >20% have a statistically higher return rate than orders with <10% discounts.  
@@ -195,8 +193,6 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 - Discounting alone is **not a major driver of returns**.
 - Small adjustments in discount strategy could slightly optimize profitability.
 
----
-
 ## 2. Shipping Leakage (Unit Economics / Business Logic)
 
 **Hypothesis:** “Critical” priority orders shipped via First Class in the Consumer segment yield negative net profit margins ≥40% of the time.  
@@ -224,7 +220,6 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 - ~26% of orders with negative margins indicates some **opportunity to optimize fulfillment or pricing** for specific orders.  
 - Efforts to reduce shipping costs or improve unit economics should target the **subset of orders with negative margins**.
 
----
 ## 3. Segment Value (Customer Modeling / Churn)
 
 **Hypothesis:** The Corporate segment has a ≥20% higher 12-month retention rate and lower return rate than the Consumer segment.  
@@ -245,8 +240,6 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 - **Returns:** Fraction of customers with at least one return is similar — Consumer 10.87%, Corporate 11.09%. Chi-square test confirms no significant difference (p = 0.708).  
 - **Interpretation:** The hypothesis that Corporate customers have higher retention or lower return rates is **not supported** by the data. LTV assumptions based solely on retention and returns are not validated.  
 - **Actionable Insight:** Marketing and retention strategies should not assume Corporate customers are inherently “stickier” or less likely to return products. Additional metrics (e.g., order frequency, average order value) should be considered for segment-specific targeting.
-
----
 
 ## 4. Regional Efficiency (Logistics Analysis / ANOVA)
 
