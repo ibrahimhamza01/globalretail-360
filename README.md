@@ -164,49 +164,99 @@ All analysis is **hypothesis-driven** and includes:
 
 The project focuses on **four high-impact hypotheses** that combine multiple datasets, statistical tests, and business interpretation:
 
-1. **The Discount Trap (Stats + Cross-Dataset)**  
-   **Hypothesis:** Orders with discounts >20% have a statistically higher return rate than orders with <10% discounts.  
-   **Business Value:** Evaluates the real cost of aggressive discounting, combining `orders.csv` and `returns.csv`, uncovering whether high discounts attract “low-quality” returns.
+---
 
-   **Methodology:**
-    - Data was filtered to focus on:
-      - Low Discount (<10%)
-      - High Discount (>20%)
-    - Excluded mid-range discounts (10–20%) to create a sharp comparison.
-    - Computed return rates for both groups:
-      - High Discount: 13.34%
-      - Low Discount: 11.28%
-    - Built a contingency table of return counts by discount group.
-    - Tested statistical significance using:
-      - Chi-square test (χ² = 33.35, df = 1, p < 0.001)
-      - Effect size (Cramér’s V = 0.028)
-    - Calculated 95% confidence interval for difference in return rates:
-      - 2.06 percentage points difference
-      - 95% CI: 1.34% – 2.78%
-    
-    **Key Insights:**
-    - The difference in return rates is **statistically significant**, but the effect size is small.
-    - Aggressive discounts slightly increase return rates, but the practical impact is minor.
-    - Other operational or customer-related factors likely have a larger impact on returns.
-    - Confirms that **statistical significance ≠ practical significance** in large datasets.
-    
-    **Takeaway for Decision-Makers:**
-    - Discounting strategy alone should not be considered a major driver of returns.
-    - Small adjustments in discount strategy could slightly optimize profitability.
+## 1. The Discount Trap (Stats + Cross-Dataset)
 
-   
+**Hypothesis:** Orders with discounts >20% have a statistically higher return rate than orders with <10% discounts.  
 
-2. **Shipping Leakage (Unit Economics / Business Logic)**  
-   **Hypothesis:** “Critical” priority orders shipped via First Class in the Consumer segment yield negative net profit margins ≥40% of the time.  
-   **Business Value:** Identifies fulfillment inefficiencies and unit economics problems, highlighting where the company loses money on high-cost orders.
+**Business Value:** Evaluates the real cost of aggressive discounting, combining `orders.csv` and `returns.csv`, uncovering whether high discounts attract “low-quality” returns.
 
-3. **Segment Value (Customer Modeling / Churn)**  
-   **Hypothesis:** The Corporate segment has a ≥20% higher 12-month retention rate and lower return rate than the Consumer segment.  
-   **Business Value:** Validates segment-level customer lifetime value (LTV) assumptions, informing marketing spend and acquisition strategy. Requires building a dim_customers table and retention metrics.
+**Methodology:**
+- Filtered data to focus on:
+  - Low Discount (<10%)
+  - High Discount (>20%)
+- Excluded mid-range discounts (10–20%) to create a sharp comparison.
+- Computed return rates:
+  - High Discount: 13.34%
+  - Low Discount: 11.28%
+- Built contingency table of return counts by discount group.
+- Statistical significance testing:
+  - Chi-square test: χ² = 33.35, df = 1, p < 0.001
+  - Effect size (Cramér’s V) = 0.028
+- 95% confidence interval for difference in return rates: 2.06 percentage points (CI: 1.34% – 2.78%)
 
-4. **Regional Efficiency (Logistics Analysis / ANOVA)**  
-   **Hypothesis:** Product return rates are driven more by regional logistics (shipping mode, region) than by product category.  
-   **Business Value:** Determines whether returns are operational vs. product-related, guiding inventory and shipping optimization strategies.
+**Key Insights:**
+- Difference in return rates is statistically significant, but effect size is small.
+- Aggressive discounts slightly increase return rates, but practical impact is minor.
+- Other operational or customer-related factors likely dominate returns.
+
+**Takeaway for Decision-Makers:**
+- Discounting alone is **not a major driver of returns**.
+- Small adjustments in discount strategy could slightly optimize profitability.
+
+---
+
+## 2. Shipping Leakage (Unit Economics / Business Logic)
+
+**Hypothesis:** “Critical” priority orders shipped via First Class in the Consumer segment yield negative net profit margins ≥40% of the time.  
+
+**Business Value:** Identifies fulfillment inefficiencies and unit economics problems, highlighting where the company loses money on high-cost orders.
+
+**Methodology:**  
+- Joined data from:
+  - `fact_sales` (profit, sales)
+  - `orders` (`Order Priority`, `Ship Mode`)
+  - `dim_customers` (`Segment`)
+- Filtered for:
+  - Customer Segment = Consumer
+  - Order Priority = Critical
+  - Shipping Mode = First Class
+- Calculated **net profit margin per order**: `profit / sales`
+- Computed proportion of orders with negative net margin.
+
+**Results:**  
+- **Proportion of negative net margin orders:** 25.94%  
+- **Interpretation:** Hypothesis is **not supported**. Fewer than 40% of these high-priority orders are losing money, though a significant minority (~26%) still have negative margins.
+
+**Takeaways for Decision-Makers:**  
+- High-priority First Class shipping in the Consumer segment is **not as loss-inducing** as feared.  
+- ~26% of orders with negative margins indicates some **opportunity to optimize fulfillment or pricing** for specific orders.  
+- Efforts to reduce shipping costs or improve unit economics should target the **subset of orders with negative margins**.
+
+---
+
+## 3. Segment Value (Customer Modeling / Churn)
+
+**Hypothesis:** The Corporate segment has a ≥20% higher 12-month retention rate and lower return rate than the Consumer segment.  
+
+**Business Value:** Validates segment-level customer lifetime value (LTV) assumptions, informing marketing spend and acquisition strategy.
+
+**Methodology:**
+- Build `dim_customers` table with segment classification.
+- Compute retention and return rates over 12 months.
+- Compare Corporate vs. Consumer segment using:
+  - Relative retention difference
+  - Return rate comparison
+
+**Key Insights & Takeaways:** *(To be completed after analysis)*
+
+---
+
+## 4. Regional Efficiency (Logistics Analysis / ANOVA)
+
+**Hypothesis:** Product return rates are driven more by regional logistics (shipping mode, region) than by product category.  
+
+**Business Value:** Determines whether returns are operational vs. product-related, guiding inventory and shipping optimization strategies.
+
+**Methodology:**
+- Analyze returns by:
+  - Product category
+  - Shipping mode
+  - Region
+- Perform ANOVA to assess contribution of logistics vs. product factors.
+
+**Key Insights & Takeaways:** *(To be completed after analysis)*
 
 ## Machine Learning
 
