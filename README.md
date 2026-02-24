@@ -196,15 +196,15 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 
    
 
-3. **Shipping Leakage (Unit Economics / Business Logic)**  
+2. **Shipping Leakage (Unit Economics / Business Logic)**  
    **Hypothesis:** “Critical” priority orders shipped via First Class in the Consumer segment yield negative net profit margins ≥40% of the time.  
    **Business Value:** Identifies fulfillment inefficiencies and unit economics problems, highlighting where the company loses money on high-cost orders.
 
-4. **Segment Value (Customer Modeling / Churn)**  
+3. **Segment Value (Customer Modeling / Churn)**  
    **Hypothesis:** The Corporate segment has a ≥20% higher 12-month retention rate and lower return rate than the Consumer segment.  
    **Business Value:** Validates segment-level customer lifetime value (LTV) assumptions, informing marketing spend and acquisition strategy. Requires building a dim_customers table and retention metrics.
 
-5. **Regional Efficiency (Logistics Analysis / ANOVA)**  
+4. **Regional Efficiency (Logistics Analysis / ANOVA)**  
    **Hypothesis:** Product return rates are driven more by regional logistics (shipping mode, region) than by product category.  
    **Business Value:** Determines whether returns are operational vs. product-related, guiding inventory and shipping optimization strategies.
 
