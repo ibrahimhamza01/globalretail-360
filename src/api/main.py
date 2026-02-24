@@ -1,24 +1,16 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from typing import List
-import pandas as pd
+from src.api.schemas import CustomerInput, PredictionResponse
 from src.api.model import predict_churn
 
 app = FastAPI(title="GlobalRetail 360 Churn API")
 
-class CustomerFeatures(BaseModel):
-    segment: str
-    region: str
-    total_orders: float
-    total_sales: float
-    avg_discount: float
-    total_returns: float
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
-@app.post("/predict")
-def predict(customers: List[CustomerFeatures]):
-    # Convert list of Pydantic objects to DataFrame
-    df = pd.DataFrame([c.dict() for c in customers])
-    # Get predictions
-    probabilities = predict_churn(df)
-    # Return as list
-    return {"predictions": probabilities.tolist()}
+@app.post("/predict", response_model=PredictionResponse)
+def predict(customers: List[CustomerInput]):
+    input_data = [c.model_dump() for c in customers]
+    predictions = predict_churn(input_data)
+    return {"predictions": predictions}
