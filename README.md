@@ -341,7 +341,16 @@ The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** servi
     "avg_discount": 0.5,
     "total_returns": 20
   }
-]```
+]
+```
+**Response**
+```json
+[
+    {
+      "predictions": [0.0000468157438026401]
+    }
+]
+```
 
 ## Deployment
 - The ETL pipeline fully automates ingestion, validation, and database loading.
