@@ -301,8 +301,47 @@ Machine learning is used to predict which customers are likely to churn and to g
 
 ## Production & MLOps
 
-Models are exposed via **FastAPI** and tracked using **MLflow**.  
-Docker is used to ensure reproducibility across environments.
+The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** service, exposing endpoints for predictions and system health. This ensures reliable, scalable, and production-ready access to the models.
+
+### Key Features
+
+#### FastAPI API
+- **`/predict`** — Accepts validated customer data and returns churn probabilities.
+- **`/health`** — Returns `{"status": "ok"}` for health checks (used by Kubernetes, Docker, load balancers, and monitoring tools).
+- Input validation via **Pydantic models** ensures only clean, structured data is processed.
+- Automatic **HTTP 422 errors** for malformed or invalid input.
+- Response schema (`PredictionResponse`) ensures consistent and well-documented JSON output.
+
+#### Exception Handling & Validation
+- Invalid categories or numeric anomalies trigger structured errors.
+- Region and segment validation includes fallback options (`Other`) and prevents malicious or malformed input.
+
+#### MLflow Tracking
+- Model versioning, metrics, and artifacts tracked for reproducibility and experiment management.
+
+#### Dockerized Deployment
+- Ensures consistent environment across local, staging, and production systems.
+- Simplifies CI/CD and cloud deployment.
+
+#### Extensible Design
+- Additional features or endpoints (e.g., new metrics, batch prediction) can be easily added.
+- Pydantic models and response schemas improve maintainability and OpenAPI documentation.
+
+### Example API Usage
+
+**POST `/predict`**
+
+```json
+[
+  {
+    "segment": "Consumer",
+    "region": "Central Us",
+    "total_orders": 70,
+    "total_sales": 330,
+    "avg_discount": 0.5,
+    "total_returns": 20
+  }
+]```
 
 ## Deployment
 - The ETL pipeline fully automates ingestion, validation, and database loading.
