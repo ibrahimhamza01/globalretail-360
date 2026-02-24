@@ -344,11 +344,21 @@ The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** servi
 ]
 ```
 **Response**
+
 ```json
 [
-    {
-      "predictions": [0.0000468157438026401]
-    }
+  {
+    "predictions": [0.0000468157438026401]
+  }
+]
+```
+**POST `/health`**
+
+```json
+[
+  {
+    "status": "ok"
+  }
 ]
 ```
 
