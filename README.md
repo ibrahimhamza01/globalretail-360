@@ -259,9 +259,15 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
   - Product category
   - Shipping mode
   - Region
-- Perform ANOVA to assess contribution of logistics vs. product factors.
+- Aggregate returns data by region, shipping mode, and product category.
+- Compute return rates per group.
+- Perform ANOVA to assess contribution of region, shipping mode, and product category to return rates.
 
-**Key Insights & Takeaways:** *(To be completed after analysis)*
+**Key Insights & Takeaways:**
+- **Region:** Statistically significant effect on return rates (p ≈ 0.0046), indicating regional logistics are a key driver of returns.
+- **Shipping Mode:** No significant effect on return rates (p ≈ 0.099), suggesting shipping method has limited influence.
+- **Product Category:** No significant effect on return rates (p ≈ 0.813), implying returns are not product-driven.
+- **Interpretation:** Returns are primarily driven by **regional logistics** rather than product type or shipping mode. Inventory and operational optimization should prioritize regional factors.
 
 ## Machine Learning
 
