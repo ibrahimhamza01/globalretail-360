@@ -225,7 +225,6 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 - Efforts to reduce shipping costs or improve unit economics should target the **subset of orders with negative margins**.
 
 ---
-
 ## 3. Segment Value (Customer Modeling / Churn)
 
 **Hypothesis:** The Corporate segment has a ≥20% higher 12-month retention rate and lower return rate than the Consumer segment.  
@@ -234,12 +233,18 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 
 **Methodology:**
 - Build `dim_customers` table with segment classification.
-- Compute retention and return rates over 12 months.
+- Compute 12-month retention and return rates for each customer.
+- Aggregate metrics at the segment level.
 - Compare Corporate vs. Consumer segment using:
-  - Relative retention difference
-  - Return rate comparison
+  - 12-month retention rate
+  - Fraction of customers with at least one return
+- Conduct Chi-square tests to check if differences are statistically significant.
 
-**Key Insights & Takeaways:** *(To be completed after analysis)*
+**Key Insights & Takeaways:**
+- **Retention:** Both segments have nearly identical 12-month retention — Consumer 43.7%, Corporate 43.6%. Chi-square test confirms no significant difference (p = 0.901).  
+- **Returns:** Fraction of customers with at least one return is similar — Consumer 10.87%, Corporate 11.09%. Chi-square test confirms no significant difference (p = 0.708).  
+- **Interpretation:** The hypothesis that Corporate customers have higher retention or lower return rates is **not supported** by the data. LTV assumptions based solely on retention and returns are not validated.  
+- **Actionable Insight:** Marketing and retention strategies should not assume Corporate customers are inherently “stickier” or less likely to return products. Additional metrics (e.g., order frequency, average order value) should be considered for segment-specific targeting.
 
 ---
 
