@@ -262,14 +262,42 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 - **Product Category:** No significant effect on return rates (p ≈ 0.813), implying returns are not product-driven.
 - **Interpretation:** Returns are primarily driven by **regional logistics** rather than product type or shipping mode. Inventory and operational optimization should prioritize regional factors.
 
-## Machine Learning
+## Machine Learning – Customer Churn Prediction
 
-Machine learning is used selectively for:
+Machine learning is used to predict which customers are likely to churn and to guide retention strategies. Models focus on **interpretability** and **business impact** rather than raw accuracy.
 
-- Customer churn prediction  
-- Sales forecasting  
+### Objective
+- Identify customers at risk of churn within the next 12 months.
+- Enable targeted retention campaigns to reduce churn costs and improve customer lifetime value.
 
-Model selection prioritizes **interpretability** and **business impact** over raw accuracy.
+### Modeling Approach
+- **Problem Type:** Supervised binary classification (churn = 1, active = 0)  
+- **Features:** Customer segment, region, total orders, total sales, average discount, total returns  
+- **Evaluation Metrics:** Accuracy, ROC AUC, Recall per class (Non-Churn 0, Churn 1)  
+
+### Models Trained
+| Model | Handling Class Imbalance | Key Insight |
+|-------|-------------------------|------------|
+| Logistic Regression | None | High recall for churners (class 1); interpretable coefficients |
+| Logistic Regression | SMOTE | Better recall for non-churners (class 0); slightly lower overall accuracy |
+| Random Forest | None | Balanced recall (~0.45 for non-churners, ~0.71 for churners); top features: total_sales, total_orders |
+| Random Forest | SMOTE | Improved non-churn recall, decreased overall performance; total_sales dominates importance |
+| XGBoost | None | Similar to Random Forest; captures non-linear feature interactions; high churn recall |
+| XGBoost | SMOTE | Slightly improved non-churn recall; overall ROC AUC slightly lower |
+
+### Key Observations
+- **Class Imbalance:** Original dataset (~56% churn, 44% non-churn) favors predicting churners; SMOTE balances classes to improve non-churn recall.  
+- **Performance Trade-offs:** SMOTE improves recognition of non-churners but reduces overall accuracy and ROC AUC.  
+- **Feature Importance & Business Insights:**  
+  - High-risk churn drivers: low total_orders, low total_sales, high total_returns, certain regions (Caribbean, Central Africa).  
+  - Protective factors: high engagement (total_orders), certain regions (Western US, Oceania), segment_Home Office.  
+- **Recommendation:** Logistic Regression (no SMOTE) is a solid baseline for targeting likely churners. SMOTE-based models are useful when minimizing false positives for non-churners.
+
+### Business Impact
+- Retention campaigns can be prioritized for high-risk customers identified by the models.  
+- Regional and segment-level patterns enable targeted marketing and loyalty programs.  
+- Model interpretability allows stakeholders to understand key drivers of churn and make data-informed decisions.
+
 
 ## Production & MLOps
 
