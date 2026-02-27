@@ -417,7 +417,7 @@ docker push ibrahimhamza01/globalretail-api:latest
 
 - Future enhancements are explicitly documented while maintaining clear boundaries to avoid overengineering.
 - Explicit non-goals:
-  -- Real-time streaming (Kafka, Spark Streaming)
-  -- Deep learning / neural networks
-  -- Fully managed feature stores
-  -- Kubernetes-level orchestration
+    - Real-time streaming (Kafka, Spark Streaming)
+    - Deep learning / neural networks
+    - Fully managed feature stores
+    - Kubernetes-level orchestration
