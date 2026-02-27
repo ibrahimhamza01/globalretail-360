@@ -301,7 +301,7 @@ Machine learning is used to predict which customers are likely to churn and to g
 
 ## Production & MLOps
 
-The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** service, exposing endpoints for predictions and system health. This ensures reliable, scalable, and production-ready access to the models.
+The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** service, exposing endpoints for predictions and system health. The service is fully containerized using Docker and versioned for reproducible, production-ready deployment.
 
 ### Key Features
 
@@ -311,20 +311,54 @@ The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** servi
 - Input validation via **Pydantic models** ensures only clean, structured data is processed.
 - Automatic **HTTP 422 errors** for malformed or invalid input.
 - Response schema (`PredictionResponse`) ensures consistent and well-documented JSON output.
+- Interactive OpenAPI documentation available at `http://127.0.0.1:8000/docs`.
 
 #### Exception Handling & Validation
 - Invalid categories or numeric anomalies trigger structured errors.
 - Region and segment validation includes fallback options (`Other`) and prevents malicious or malformed input.
+- Defensive validation prevents unexpected runtime failures in production.
 
 #### MLflow Tracking
-- Model versioning, metrics, and artifacts tracked for reproducibility and experiment management.
+- Model parameters logged during training.
+- Evaluation metrics tracked for comparison.
+- Model artifacts versioned and stored.
+- Ensures experiment reproducibility and structured model management.
 
 #### Dockerized Deployment
-- Ensures consistent environment across local, staging, and production systems.
-- Simplifies CI/CD and cloud deployment.
+- Production-ready `Dockerfile` defines runtime, dependencies, working directory, and startup command.
+- `.dockerignore` excludes unnecessary files (`.venv`, `data`, `notebooks`, `.git`, etc.) to keep images lightweight.
+- Reproducible container builds ensure identical behavior across environments.
+
+**Build Docker image**
+```bash
+docker build -t globalretail-api:latest .
+```
+
+**Run container locally**
+```bash
+docker run -p 8000:8000 globalretail-api:latest
+```
+
+#### Image Tagging & Versioning
+- Docker images are version-tagged for controlled releases.
+- Supports rollbacks and reproducible deployments.
+
+```bash
+docker tag globalretail-api:latest yourdockerhubusername/globalretail-api:v1.0
+```
+
+#### Docker Hub Publishing
+- Images pushed to Docker Hub for cloud deployment and CI/CD workflows.
+- Enables portable deployment across infrastructure providers.
+
+```bash
+docker push yourdockerhubusername/globalretail-api:v1.0
+```
 
 #### Extensible Design
-- Additional features or endpoints (e.g., new metrics, batch prediction) can be easily added.
+- Additional features or endpoints (e.g., batch prediction, monitoring metrics) can be easily added.
+- Architecture supports future MLflow Model Registry integration.
+- Designed for potential Kubernetes or cloud-native deployment.
 - Pydantic models and response schemas improve maintainability and OpenAPI documentation.
 
 ### Example API Usage
@@ -343,6 +377,7 @@ The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** servi
   }
 ]
 ```
+
 **Response**
 
 ```json
@@ -352,6 +387,7 @@ The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** servi
   }
 ]
 ```
+
 **POST `/health`**
 
 ```json
