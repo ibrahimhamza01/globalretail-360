@@ -323,6 +323,7 @@ The GlobalRetail 360 churn prediction models are deployed as a **FastAPI** servi
 - Evaluation metrics tracked for comparison.
 - Model artifacts versioned and stored.
 - Ensures experiment reproducibility and structured model management.
+- Lightweight integration: `.pkl` model is loaded in the API for simplicity.
 
 #### Dockerized Deployment
 - Production-ready `Dockerfile` defines runtime, dependencies, working directory, and startup command.
@@ -344,7 +345,8 @@ docker run -p 8000:8000 globalretail-api:latest
 - Supports rollbacks and reproducible deployments.
 
 ```bash
-docker tag globalretail-api:latest ibrahimhamza01/globalretail-api:v1.0
+docker tag globalretail-api:latest ibrahimhamza01/globalretail-api:v0.2.0
+docker tag globalretail-api:latest ibrahimhamza01/globalretail-api:latest
 ```
 
 #### Docker Hub Publishing
@@ -352,7 +354,8 @@ docker tag globalretail-api:latest ibrahimhamza01/globalretail-api:v1.0
 - Enables portable deployment across infrastructure providers.
 
 ```bash
-docker push ibrahimhamza01/globalretail-api:v1.0
+docker push ibrahimhamza01/globalretail-api:v0.2.0
+docker push ibrahimhamza01/globalretail-api:latest
 ```
 
 #### Extensible Design
