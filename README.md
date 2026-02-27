@@ -344,7 +344,7 @@ docker run -p 8000:8000 globalretail-api:latest
 - Supports rollbacks and reproducible deployments.
 
 ```bash
-docker tag globalretail-api:latest yourdockerhubusername/globalretail-api:v1.0
+docker tag globalretail-api:latest ibrahimhamza01/globalretail-api:v1.0
 ```
 
 #### Docker Hub Publishing
@@ -352,7 +352,7 @@ docker tag globalretail-api:latest yourdockerhubusername/globalretail-api:v1.0
 - Enables portable deployment across infrastructure providers.
 
 ```bash
-docker push yourdockerhubusername/globalretail-api:v1.0
+docker push ibrahimhamza01/globalretail-api:v1.0
 ```
 
 #### Extensible Design
