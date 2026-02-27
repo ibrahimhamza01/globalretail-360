@@ -405,29 +405,19 @@ docker push ibrahimhamza01/globalretail-api:latest
 - The ETL pipeline fully automates ingestion, validation, and database loading.
 - Warehouse tables are built automatically at the end of the ETL.
 - Run locally using: `python -m src.main`
-
-## BI & Storytelling
-
-Power BI dashboards communicate insights to executive and analytical audiences, maintaining a clear separation between operational systems and decision support.
+- Cloud-deployed API is available at: https://globalretail360-api.onrender.com/docs
 
 ## Reproducibility
 
-The entire system can be reproduced locally using Docker with documented setup steps.
+- The entire system can be reproduced locally using Docker with documented setup steps.
+- Dockerized API and ML models ensure consistent behavior across environments.
+- MLflow is used for experiment tracking, model versioning, and metrics logging.
 
 ## Roadmap and Non-Goals
 
-Future enhancements are documented explicitly while maintaining clear boundaries to avoid overengineering.
-
-### Next Steps
-
-- Perform detailed EDA and feature engineering for all internal CSVs and external enrichment datasets (exchange rates, Fake Store products)
-- Conduct statistical analyses and hypothesis testing based on the four high-impact hypotheses:
-    1. The Discount Trap
-    2. Shipping Leakage
-    3. Segment Value
-    4. Regional Efficiency
-- Build interpretable machine learning models for:
-    - Customer churn prediction
-    - Sales forecasting
-- Extend BI dashboards to include insights from warehouse analytics and external enrichment features
-- Deploy predictive models via FastAPI and monitor with MLflow
+- Future enhancements are explicitly documented while maintaining clear boundaries to avoid overengineering.
+- Explicit non-goals:
+  -- Real-time streaming (Kafka, Spark Streaming)
+  -- Deep learning / neural networks
+  -- Fully managed feature stores
+  -- Kubernetes-level orchestration
