@@ -420,4 +420,4 @@ docker push ibrahimhamza01/globalretail-api:latest
   - Real-time streaming (Kafka, Spark Streaming)
   - Deep learning / neural networks
   - Fully managed feature stores
-  - Kubernetes-level orchestration
+  - Kubernetes-level orchestration 
