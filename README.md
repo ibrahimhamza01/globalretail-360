@@ -304,8 +304,9 @@ We utilized **SHAP (SHapley Additive exPlanations)** to break down the "black bo
 
 ### 1. Global Feature Importance
 The summary plot ranks features by their average impact on the model's output magnitude.
-* **Total Orders & Returns:** These are the primary drivers of the model. 
+* **Total Orders & Returns:** These are the primary drivers of the model.
 * **Regional Influence:** Geographic location (e.g., Western US, Western Europe) plays a secondary but consistent role in determining churn probability.
+
 ![SHAP Summary](reports/shap_summary.png)
 
 ### 2. Feature Impact (Beeswarm Plot)
@@ -314,11 +315,15 @@ The Beeswarm plot illustrates how the *value* of a feature influences the *direc
 * **num__total_returns:** Conversely, high return volume (pink) pushes SHAP values into the positive range, acting as a strong signal for potential churn.
 * **Categorical Sparsity:** Most regional features show a dense cluster at zero, indicating that for the majority of customers (where the feature is 0), geography has no impact on the prediction.
 
+![SHAP Beeswarm](reports/shap_beeswarm.png)
+
 ### 3. Individual Prediction Breakdown (Waterfall Plot)
 The Waterfall plot visualizes a single customer's journey from the **expected value** (the dataset average) to their **final predicted output**.
-* **$E[f(X)]$:** The baseline starting point for all predictions.
-* **Positive/Negative Contributions:** Each horizontal bar shows how much a specific feature (like a high return count or a specific region) increased or decreased that specific customer's churn log-odds.
-* **Final Score ($f(x)$):** The sum of all contributions, determining the final classification for that individual.
+* **$E[f(X)]$**: The baseline starting point (average log-odds) for all predictions.
+* **Positive/Negative Contributions**: Each horizontal bar shows how much a specific feature increased or decreased that specific customer's churn log-odds.
+* **Final Score $f(x)$**: The final sum of all contributions, determining the classification for that individual.
+
+![SHAP Waterfall](reports/shap_waterfall.png)
 
 ## Production & MLOps
 
