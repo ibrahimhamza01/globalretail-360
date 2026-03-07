@@ -298,6 +298,26 @@ Machine learning is used to predict which customers are likely to churn and to g
 - Regional and segment-level patterns enable targeted marketing and loyalty programs.  
 - Model interpretability allows stakeholders to understand key drivers of churn and make data-informed decisions.
 
+### Model Explainability (SHAP)
+
+We utilized **SHAP (SHapley Additive exPlanations)** to break down the "black box" of the model, providing both global insights into feature importance and local explanations for individual customer predictions.
+
+### 1. Global Feature Importance
+The summary plot ranks features by their average impact on the model's output magnitude.
+* **Total Orders & Returns:** These are the primary drivers of the model. 
+* **Regional Influence:** Geographic location (e.g., Western US, Western Europe) plays a secondary but consistent role in determining churn probability.
+
+### 2. Feature Impact (Beeswarm Plot)
+The Beeswarm plot illustrates how the *value* of a feature influences the *direction* of the churn risk.
+* **num__total_orders:** High values (pink) correlate with negative SHAP values, meaning loyal, high-volume customers are significantly less likely to churn.
+* **num__total_returns:** Conversely, high return volume (pink) pushes SHAP values into the positive range, acting as a strong signal for potential churn.
+* **Categorical Sparsity:** Most regional features show a dense cluster at zero, indicating that for the majority of customers (where the feature is 0), geography has no impact on the prediction.
+
+### 3. Individual Prediction Breakdown (Waterfall Plot)
+The Waterfall plot visualizes a single customer's journey from the **expected value** (the dataset average) to their **final predicted output**.
+* **$E[f(X)]$:** The baseline starting point for all predictions.
+* **Positive/Negative Contributions:** Each horizontal bar shows how much a specific feature (like a high return count or a specific region) increased or decreased that specific customer's churn log-odds.
+* **Final Score ($f(x)$):** The sum of all contributions, determining the final classification for that individual.
 
 ## Production & MLOps
 
