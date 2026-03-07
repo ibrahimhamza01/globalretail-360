@@ -280,11 +280,11 @@ Does offering discounts ≥ 20% increase product return rates?
 |--------|--------|-----------|
 | Sample size | 86,050 | 40,817 |
 | Return rate | 15.92% | 18.28% |
-| Absolute lift | - | +2.36% |
-| Z-statistic | - | 10.55 |
-| P-value | - | <0.0001 |
+| Absolute lift | N/A | +2.36% |
+| Z-statistic | N/A | 10.55 |
+| P-value | N/A | <0.0001 |
 | 95% CI | [15.68%, 16.17%] | [17.91%, 18.66%] |
-| Cohen's h | - | 0.06 (small) |
+| Cohen's h | N/A | 0.06 (small) |
 
 ### Conclusion
 The A/B test shows a statistically significant increase in returns when offering discounts ≥ 20%. With p < 0.05, we reject the null hypothesis that discount rate has no effect on return rate.
