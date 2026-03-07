@@ -306,6 +306,7 @@ We utilized **SHAP (SHapley Additive exPlanations)** to break down the "black bo
 The summary plot ranks features by their average impact on the model's output magnitude.
 * **Total Orders & Returns:** These are the primary drivers of the model. 
 * **Regional Influence:** Geographic location (e.g., Western US, Western Europe) plays a secondary but consistent role in determining churn probability.
+![SHAP Summary](reports/shap_summary.png)
 
 ### 2. Feature Impact (Beeswarm Plot)
 The Beeswarm plot illustrates how the *value* of a feature influences the *direction* of the churn risk.
