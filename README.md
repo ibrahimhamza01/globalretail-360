@@ -262,6 +262,45 @@ The project focuses on **four high-impact hypotheses** that combine multiple dat
 - **Product Category:** No significant effect on return rates (p ≈ 0.813), implying returns are not product-driven.
 - **Interpretation:** Returns are primarily driven by **regional logistics** rather than product type or shipping mode. Inventory and operational optimization should prioritize regional factors.
 
+## A/B Test: Impact of Aggressive Discounting on Return Rate
+
+### Business Question
+Does offering discounts ≥ 20% increase product return rates?
+
+### Experiment Design
+- **Control group:** Transactions with discount < 20%
+- **Treatment group:** Transactions with discount ≥ 20%
+- **Metric:** Product return rate (binary: returned / not returned)
+- **Test:** Two-proportion z-test (two-sided)
+- **Required sample size:** 392 per group at 80% power, α=0.05
+
+### Results
+
+| Metric | Control | Treatment |
+|--------|--------|-----------|
+| Sample size | 86,050 | 40,817 |
+| Return rate | 15.92% | 18.28% |
+| Absolute lift | - | +2.36% |
+| Z-statistic | - | 10.55 |
+| P-value | - | <0.0001 |
+| 95% CI | [15.68%, 16.17%] | [17.91%, 18.66%] |
+| Cohen's h | - | 0.06 (small) |
+
+### Conclusion
+The A/B test shows a statistically significant increase in returns when offering discounts ≥ 20%. With p < 0.05, we reject the null hypothesis that discount rate has no effect on return rate.
+
+### Business Recommendation
+While aggressive discounts drive sales, they also increase returns by ~2.4%. The company should consider:
+- Capping discounts at 20% to reduce return costs.
+- Monitoring high-discount products for excessive returns.
+- Adjusting marketing strategy to target loyal customers for larger discounts while protecting margins.
+
+### Caveats and Limitations
+- **Selection bias:** High-discount items may attract different customers than low-discount items.
+- **Novelty effect:** Initial returns may be higher but normalize over time.
+- **Causality:** This analysis is observational; a randomized experiment would confirm causality.
+- **Unmeasured confounders:** Product category, season, and customer segment were not controlled.
+
 ## Machine Learning – Customer Churn Prediction
 
 Machine learning is used to predict which customers are likely to churn and to guide retention strategies. Models focus on **interpretability** and **business impact** rather than raw accuracy.
