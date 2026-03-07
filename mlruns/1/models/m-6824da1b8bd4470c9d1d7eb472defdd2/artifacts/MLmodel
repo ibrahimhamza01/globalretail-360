@@ -1,0 +1,23 @@
+artifact_path: /home/syed/VS code/globalretail-360/mlruns/1/models/m-6824da1b8bd4470c9d1d7eb472defdd2/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.14.3
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.8.0
+    skops_trusted_types: null
+mlflow_version: 3.10.0
+model_id: m-6824da1b8bd4470c9d1d7eb472defdd2
+model_size_bytes: 3109
+model_uuid: m-6824da1b8bd4470c9d1d7eb472defdd2
+prompts: null
+run_id: f31fc04ff8004ee99d5c816b2525f4d8
+utc_time_created: '2026-03-07 03:19:20.631669'
